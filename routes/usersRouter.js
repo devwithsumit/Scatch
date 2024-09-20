@@ -1,15 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const userModel = require("../models/user");
-const Joi = require("joi");
-const bcrypt = require("bcrypt");
-const { generateToken } = require("../utils/generateToken");
 
-const userValidateSchema = Joi.object({
-    fullname: Joi.string().min(2).required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().min(6).required(),
-})
+const { registerUser, loginUser, logout } = require("../controllers/authController");
+const isLoggedin = require("../middlewares/isLoggedin");
+
 // Test route to verify the server is running
 router.get("/", async function (req, res) {
     try {
@@ -21,42 +16,11 @@ router.get("/", async function (req, res) {
 });
 
 // Create a new user
-router.post("/create", async function (req, res) {
-    const { fullname, email, password } = req.body;
+router.post("/create", registerUser);
 
-    //Validation process of user details
-    const { error } = userValidateSchema.validate({ fullname, email, password }, { abortEarly: false });
-    if (error) {
-        return res.status(400).send({
-            message: error.details.map(detail => {
-                return detail.message
-            })
-        });
-    }
-
-    try {
-        const hashed = await bcrypt.hash(password, 10)
-        let user = await userModel.create({
-            fullname,
-            email,
-            password: hashed,
-        });
-        let token = generateToken(user)
-        res.cookie("token", token)
-        // Return status 201 for successful creation
-        res.status(201).json({
-            message: "User created successfully",
-            createdUser: user,
-        });
-    } catch (error) {
-        // Use status 500 for server errors
-        res.status(500).json({
-            message: "Error creating user",
-            error: error.message
-        });
-    }
-});
-
+router.post("/login", loginUser);
+ 
+router.get("/logout", logout)
 // Delete all users
 router.delete("/deleteAllUsers", async (req, res) => {
     try {
