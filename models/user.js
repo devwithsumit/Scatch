@@ -9,7 +9,10 @@ const userSchema = mongoose.Schema({
     },
     email: String,
     password: String,
-    cart: [],
+    cart: [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "product",
+    }],
     orders: [],
     contact: Number,
     picture: String,

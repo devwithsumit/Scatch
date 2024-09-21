@@ -9,9 +9,12 @@ const ownerSchema = mongoose.Schema({
     },
     email: String,
     password: String,
-    products: [],
+    products: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref : "product",
+    }],
     picture: String,
     gstin: String,
 })
 
-// module.exports = mongoose.model("owner", ownerSchema)
+module.exports = mongoose.model("owner", ownerSchema)
