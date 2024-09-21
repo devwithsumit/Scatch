@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scatch</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+  <% if ((error && error.length > 0) || (success && success.length > 0)) { %>
+  <div id="flash-message" class="<%= error ? 'bg-red-500' : 'bg-green-500' %> z-[99999] px-4 py-2 text-center rounded-md text-white absolute top-5 left-1/2 -translate-x-1/2">
+    <% (error || success).forEach(function(message) { %>
+    <h1>
+      <%= message %>
+    </h1>
+    <% }); %>
+  </div>
+  <% } %>
+  <div id="main" class="container min-h-screen flex flex-col justify-center mx-auto px-10 py-8">
+    <h1 class="text-3xl font-bold tracking-wide mb-10">Welcome to <span class="text-blue-500">Scatch</span>
+    </h1>
+    <div class="flex flex-col md:flex-row gap-5 justify-center items-start">
+      <div class="w-full md:w-1/2 p-4">
+        <h2 class="text-2xl font-bold mb-4">Create Your Account</h2>
+        <form method="post" action="/users/create">
+          <div class="mb-4">
+            <label class="block text-base font-medium text-gray-700">Full Name <span class="text-red-500 inline-block">*</span></label>
+            <input type="name" name="fullname" required min="3" class="mt-1 block py-1 px-2 w-2/3 rounded-md border-gray-300 shadow-sm outline-none sm:text-sm">
+          </div>
+          <div class="mb-4">
+            <label class="block text-base font-medium text-gray-700">Email <span class="text-red-500 inline-block">*</span></label>
+            <input type="email" name="email" required class="mt-1 block py-1 px-2 w-2/3 rounded-md border-gray-300 shadow-sm outline-none sm:text-sm">
+          </div>
+          <div class="mb-4">
+            <label class="block text-base font-medium text-gray-700">Password <span class="text-red-500 inline-block">*</span></label>
+            <input type="password" name="password" required min="5" class="mt-1 block py-1 px-2 w-2/3 rounded-md border-gray-300 shadow-sm outline-none sm:text-sm">
+          </div>
+          <div>
+            <label class="block text-sm mb-4 font-medium text-yellow-600">
+              (Minimum 5 characters required to create a password)
+            </label>
+          </div>
+          <div class="mb-4">
+            <button type="submit" class="block w-1/2 px-4 py-2 md:text-sm  text-xs font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600">Create
+              My Account</button>
+          </div>
+        </form>
+      </div>
+      <div class="w-full md:w-1/2  p-4">
+        <h2 class="text-2xl font-bold mb-4">Login Into Your Account</h2>
+        <form method="post" action="/users/login">
+          <div class="mb-4">
+            <label class="block text-base font-medium text-gray-700">Email <span class="text-red-500 inline-block">*</span></label>
+            <input type="email" name="email" required class="mt-1 block py-1 px-2 w-2/3 rounded-md border-gray-300 shadow-sm outline-none sm:text-sm">
+          </div>
+          <div class="mb-4">
+            <label class="block text-base font-medium text-gray-700">Password <span class="text-red-500 inline-block">*</span></label>
+            <input type="password" name="password" required class="mt-1 block py-1 px-2 w-2/3 rounded-md border-gray-300 shadow-sm outline-none sm:text-sm">
+          </div>
+          <div class="mb-4">
+            <button type="submit" class="block w-1/2 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600">Login
+              Account</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="/javascripts/script.js"></script>
+</body>
+
+</html>
