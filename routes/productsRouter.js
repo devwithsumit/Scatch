@@ -2,11 +2,12 @@ const express = require("express")
 const router = express.Router()
 const upload = require("../config/multer-config")
 const productModel = require("../models/product")
+const isLoggedin = require("../middlewares/isLoggedin")
 
 router.post("/create", upload.single("image"), async function (req, res) {
     try {
         let { name, price, discount } = req.body;
-        let products = await productModel.create({
+        let product = await productModel.create({
             name,
             price,
             discount,
