@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scatch</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+  <% if ((error && error.length > 0) || (success && success.length > 0)) { %>
+  <div id="flash-message" class="<%= error && error.length > 0 ? 'bg-red-500' : 'bg-green-500' %> z-[99999] px-4 py-2 text-center rounded-md text-white absolute top-3 left-1/2 -translate-x-1/2">
+    <% (error && error.length > 0 ? error : success).forEach(function(message) { %>
+    <h1>
+      <%= message %>
+    </h1>
+    <% }); %>
+  </div>
+  <% } %>
+  <nav class="w-full bg-gray-100/30 backdrop-blur fixed top-0 left-0 flex justify-between px-5 md:px-10 py-3 border-b-2 border-gray-500">
+    <a href="/home" class="text-2xl font-bold capitalize">home</a>
+    <div class="links flex items-center gap-5 whitespace-nowrap">
+      <a href="/" class="hover:underline text-blue-600 hover:text-blue-600 hidden md:block">Home</a>
+      <a href="/shop" class="hover:underline hover:text-blue-600 hidden md:block">Products</a>
+      <a href="/cart" class="hover:underline hover:text-blue-600 md:block">Cart</a>
+      <a href="#" class="hover:underline hover:text-blue-600 hidden md:block">My account</a>
+      <a href="/users/logout" class="block px-4 py-2 text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600">Logout</a>
+    </div>
+  </nav>
+  <div id="main" class="container min-h-screen flex items-center mx-auto px-10 py-8
+  bg-[url('./images/homebg.png')] bg-center bg-cover">
+    <div class="text-wrapper text-blue-950 w-full lg:w-1/2 p-10 pl-12 h-full">
+        <h1 class="text-5xl font-bold tracking-wide">Welcome to <span class="text-blue-500">Scatch</span>
+        </h1>
+        <p class="text-pretty tracking-wide mt-2">A overall product website which provides endless offers and discount on your most needed things. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis, accusantium?</p>
+        <a href="/shop" class="px-10 py-2 rounded tracking-wide bg-blue-500 hover:scale-x-[1.1] transition text-white font-medium mt-2 inline-block">Explore Now</a>
+    </div>
+  </div>
+
+  <script src="/javascripts/script.js"></script>
+</body>
+
+</html>
