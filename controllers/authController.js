@@ -41,7 +41,7 @@ module.exports.registerUser = async function (req, res) {
         let token = generateToken(user)
         res.cookie("token", token)
 
-        req.flash("error", "Congratulations Account created now you can login");
+        req.flash("success", "Congratulations Account created now you can login");
         return res.redirect("/")
         // Return status 201 for successful creation
         res.redirect("/");
@@ -73,7 +73,7 @@ module.exports.loginUser = async function (req, res) {
         if (isMatch) {
             let token = generateToken(user)
             res.cookie("token", token)
-            return res.redirect("/shop")
+            return res.redirect("/home")
             // return res.status(200).send("Password matches! You can log in.");
         } else {
             req.flash("error", "Something went wrong!");
