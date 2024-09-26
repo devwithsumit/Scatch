@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="">
+  <% if ((error && error.length > 0) || (success && success.length > 0)) { %>
+  <div id="flash-message" class="<%= error && error.length > 0 ? 'bg-red-500' : 'bg-green-500' %> z-[99999] px-4 py-2 text-center rounded-md text-white absolute top-3 left-1/2 -translate-x-1/2">
+    <% (error && error.length > 0 ? error : success).forEach(function(message) { %>
+    <h1>
+      <%= message %>
+    </h1>
+    <% }); %>
+  </div>
+  <% } %>
+
+  <!-- Navbar -->
+  <nav class="w-full bg-white fixed top-0 left-0 flex justify-between px-5 md:px-10 py-3 border-b-2 border-gray-500">
+    <a href="cart" class="text-2xl font-bold capitalize">Cart</a>
+    <div class="links flex items-center gap-5 whitespace-nowrap">
+      <a href="" class="hover:underline hover:text-blue-600 hidden md:block">Home</a>
+      <a href="/shop" class="hover:underline hover:text-blue-600 md:block">Products</a>
+      <a href="/cart" class="hover:underline text-blue-600 hover:text-blue-600 md:block">Cart</a>
+      <a href="#" class="hover:underline hover:text-blue-600 hidden md:block">My account</a>
+            <a href="/users/logout" class="block px-4 py-2 text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600">Logout</a>
+    </div>
+  </nav>
+
+  <!-- main  wrapper -->
+  <main class="container pt-[12vh] px-5 md:px-10 flex flex-col lg:flex-col space-y-8 lg:space-y-10 lg:space-x-0">
+
+    <% products.forEach(product=> { %>
+    <div class="product-cart flex flex-col lg:flex-row" data-product-id="<%= product._id %>">
+      <!--Left image + detail container -->
+      <div class="rounded-lg border p-6 w-full h-1/2 lg:w-[26%]">
+        <img src="data:image/jpeg;Base64,<%= product.image.toString('base64')%>" alt="Product Image" class="w-full h-72 object-contain rounded mb-4">
+
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h3 class="text-xl font-semibold">
+              <%= product.name %>
+            </h3>
+            <p class="text-gray-500">Net Total</p>
+          </div>
+          <p class="text-lg font-semibold">₹ <%= product.discount %>
+          </p>
+        </div>
+
+        <!-- Quantity Selector -->
+        <div class="flex items-center space-x-4">
+          <button class="bg-gray-300 text-gray-700 px-2 py-1 rounded quantity-decrease" data-id="<%= product._id %>">-</button>
+          <input type="text" value="1" class="text-center border rounded w-12 quantity-input" data-id="<%= product._id %>" readonly>
+          <button class="bg-gray-300 text-gray-700 px-2 py-1 rounded quantity-increase" data-id="<%= product._id %>">+</button>
+        </div>
+
+      </div>
+      <!-- Price Breakdown -->
+      <div class="p-2 md:p-6 w-full lg:w-1/2">
+        <h3 class="text-xl font-semibold mb-6">Price Breakdown</h3>
+        <div class="space-y-4">
+          <div class="flex justify-between">
+            <span>Total MRP</span>
+            <span>₹ <span class="price-mrp" data-id="<%= product._id %>">
+                <%= product.price %>
+              </span></span>
+          </div>
+          <div class="flex justify-between">
+            <span>Discount on MRP</span>
+            <span>₹ <span class="discount-value" data-id="<%= product._id %>">
+                <%= product.price - product.discount %>
+              </span></span>
+          </div>
+          <div class="flex justify-between">
+            <span>Quantity</span>
+            <span class="quantity-display" data-id="<%= product._id %>">1</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Shipping Fee</span>
+            <span data-id="<%= product._id%>" class="shipping-charge uppercase"> <%=product.discount < 500 ? '₹20' : "free" %></span>
+          </div>
+
+          <hr class="my-4">
+
+          <!-- Total Amount -->
+          <div class="flex justify-between text-lg font-semibold">
+            <span>Total Amount</span>
+            <span class="total-amount text-green-500" data-id="<%= product._id %>">₹ <%=
+                                    product.discount + (product.discount < 500 ? 20 : 0) %>
+            </span>
+          </div>
+
+          <!-- Place Order/Remove Button -->
+          <div class="buttons flex w-full items-center justify-between gap-2">
+            <a href="/delete/<%= product._id %>" onclick="" class="border-2 text-gray-600 text-sm md:text-base w-2/5 flex justify-center items-center gap-1 md:gap-2 px-4 py-3 rounded" data-product-id="<%= product._id %>">
+              <img class="w-5 -ml-1 md:-ml-5 h-full object-cover" src="/images/remove.png" alt="">
+              <span class="inline-block -ml-1">Remove</span>
+            </a>
+            <button type="submit" onclick="confirm('Confirm Order ?')" class="bg-neutral-900 text-sm md:text-base whitespace-nowrap w-3/5 border-2 border-black hover:bg-neutral-8 00 transition-colors duration-300 text-white px-10 py-3 rounded">Place
+              Order</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }) %>
+
+    <% if(products.length <= 0){ %>
+    <div class="w-full h-[60vh] flex items-center justify-center text-3xl">
+      <h1 class="text-center">Your Card is Empty 🛒</h1>
+    </div>
+    <%}%>
+    </main>
+    <script src="/javascripts/script.js"></script>
+
+</body>
+
+</html>
