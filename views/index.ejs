@@ -11,8 +11,8 @@
 
 <body class="bg-gray-100">
   <% if ((error && error.length > 0) || (success && success.length > 0)) { %>
-  <div id="flash-message" class="<%= error ? 'bg-red-500' : 'bg-green-500' %> z-[99999] px-4 py-2 text-center rounded-md text-white absolute top-5 left-1/2 -translate-x-1/2">
-    <% (error || success).forEach(function(message) { %>
+  <div id="flash-message" class="<%= error && error.length > 0 ? 'bg-red-500' : 'bg-green-500' %> z-[99999] px-4 py-2 text-center rounded-md text-white absolute top-5 left-1/2 -translate-x-1/2">
+    <% (error && error.length > 0 ? error : success).forEach(function(message) { %>
     <h1>
       <%= message %>
     </h1>
